@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package>
-  <name>fsm</name>
+  <name>nlp_module</name>
   <version>1.0.0</version>
-  <description>The fsm package</description>
+  <description>Natural Language processing for Human Robot Interaction of the LARA's guide</description>
 
   <maintainer email="gabriel.araujo.5000@gmail.com">Gabriel Araujo</maintainer>
   <author email="gabriel.araujo.5000@gmail.com">Gabriel Araujo</author>
