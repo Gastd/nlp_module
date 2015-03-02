@@ -1,0 +1,5 @@
+<launch>
+	<node name="listener" pkg="nlp_module" type="listener" />
+	<node name="fsm" pkg="nlp_module" type="fsm" />
+	<node name="talker" pkg="nlp_module" type="talker" />
+</launch>
