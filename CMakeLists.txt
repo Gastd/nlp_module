@@ -3,6 +3,7 @@ project(nlp_module)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${PROJECT_SOURCE_DIR}/cmake/")
 
+find_package(catkin REQUIRED COMPONENTS roslaunch)
 find_package(ALSA REQUIRED)
 find_package(Curses REQUIRED)
 find_package(Festival REQUIRED)
@@ -56,3 +57,5 @@ target_link_libraries(talker ${catkin_LIBRARIES} ${FESTIVAL_LIBRARIES} ${SPEECHT
 
 add_executable(fsm src/fsm.cpp)
 target_link_libraries(fsm ${catkin_LIBRARIES} class_fsm filters)
+
+roslaunch_add_file_check(launch)
