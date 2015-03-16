@@ -67,6 +67,7 @@ void setup_sig_handler()
 	signal(SIGINT, &sig_handler);
 	signal(SIGTSTP, &sig_handler);
 	signal(SIGABRT, &sig_handler);
+	signal(SIGTERM, &sig_handler);
 }
 
 void sig_handler(int sig)
@@ -81,6 +82,10 @@ void sig_handler(int sig)
 			break;
 		case SIGABRT:
 			signal(SIGABRT, SIG_IGN);
+			break;
+		case SIGTERM:
+			signal(SIGTERM, SIG_IGN);
+			break;
 	}
 	
 	cout << "Closing hardware nicely\n";
