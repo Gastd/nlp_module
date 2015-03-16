@@ -45,7 +45,7 @@ add_library(filters
 
 add_library(class_fsm
   src/class_fsm.cpp
-  src/filters.cpp
+  # src/filters.cpp
 )
 
 add_executable(listener src/listener.cpp)
@@ -55,4 +55,4 @@ add_executable(talker src/talker.cpp)
 target_link_libraries(talker ${catkin_LIBRARIES} ${FESTIVAL_LIBRARIES} ${SPEECHTOOLS_LIBRARIES} ${ALSA_LIBRARY} ${CURSES_LIBRARY})
 
 add_executable(fsm src/fsm.cpp)
-target_link_libraries(fsm ${catkin_LIBRARIES} class_fsm)
+target_link_libraries(fsm ${catkin_LIBRARIES} class_fsm filters)
