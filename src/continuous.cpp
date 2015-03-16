@@ -13,9 +13,9 @@ char *argv[] = {(char*)"./continuous",
 		(char*)"-adcdev",
 		(char*)"plughw:0,0",
 		(char*)"-lm",
-		(char*)"/home/gastd/workspaces/hydro/catkin_ws/src/fsm/data/model/language_model.lm",
+		(char*)"/home/gastd/workspaces/hydro/catkin_ws/src/nlp_module/data/model/language_model.lm",
 		(char*)"-dict",
-		(char*)"/home/gastd/workspaces/hydro/catkin_ws/src/fsm/data/model/phonetic_dictionary.dic",
+		(char*)"/home/gastd/workspaces/hydro/catkin_ws/src/nlp_module/data/model/phonetic_dictionary.dic",
 		};
 int argc = 7;
 
