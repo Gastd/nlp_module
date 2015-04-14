@@ -11,11 +11,11 @@ const arg_t cont_args_def[] = {
 			      };
 char *argv[] = {(char*)"./continuous",
 		(char*)"-adcdev",
-		(char*)"plughw:0,0",
+		(char*)"plughw:1,0",
 		(char*)"-lm",
-		(char*)"/home/gastd/workspaces/hydro/catkin_ws/src/nlp_module/data/model/language_model.lm",
+		(char*)"/home/gastd/workspaces/indigo/amora_ws/src/nlp_module/data/model/language_model.lm",
 		(char*)"-dict",
-		(char*)"/home/gastd/workspaces/hydro/catkin_ws/src/nlp_module/data/model/phonetic_dictionary.dic",
+		(char*)"/home/gastd/workspaces/indigo/amora_ws/src/nlp_module/data/model/phonetic_dictionary.dic",
 		};
 int argc = 7;
 
@@ -148,5 +148,4 @@ void decoder::release()
 	ps_free(ps);
 	//cmd_ln_free_r(config);
 	cmd_ln_free();
-	E_FATAL("oi");
 }
