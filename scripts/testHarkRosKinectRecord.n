@@ -1,0 +1,48 @@
+#!/usr/bin/env batchflow
+<?xml version="1.0"?>
+<Document>
+  <Network type="iterator" name="loop">
+    <Node name="node_AudioStreamFromMic_1" type="AudioStreamFromMic" x="550" y="230">
+      <Parameter name="LENGTH" type="subnet_param" value="LENGTH" description="The frame length of each channel (in samples) [default: 512]."/>
+      <Parameter name="ADVANCE" type="subnet_param" value="ADVANCE" description="The shift length beween adjacent frames (in samples)[default: 160]."/>
+      <Parameter name="CHANNEL_COUNT" type="int" value="4" description="The number of channels."/>
+      <Parameter name="SAMPLING_RATE" type="int" value="16000" description="Sampling rate (Hz) [default: 16000]."/>
+      <Parameter name="DEVICETYPE" type="string" value="ALSA" description="Device type [default: WS]."/>
+      <Parameter name="GAIN" type="string" value="0dB" description="capture gain (dB)  [default: 0dB]."/>
+      <Parameter name="DEVICE" type="subnet_param" value="DEVICE" description="Device name or IP address [default: 127.0.0.1]"/>
+    </Node>
+    <Node name="node_RosHarkMsgsPublisher_1" type="RosHarkMsgsPublisher" x="910" y="190">
+      <Parameter name="ADVANCE" type="int" value="160" description="Shift sample number for sliding spectrum analysis."/>
+      <Parameter name="ENABLE_DEBUG" type="bool" value="false" description="print debug message of this module in case of true."/>
+      <Parameter name="TOPIC_NAME_HARKWAVE" type="string" value="HarkWave" description="Published topic name for ROS (HarkWave type message)"/>
+      <Parameter name="TOPIC_NAME_HARKFFT" type="string" value="HarkFFT" description="Published topic name for ROS (HarkFFT type message)"/>
+      <Parameter name="TOPIC_NAME_HARKFEATURE" type="string" value="HarkFeature" description="Published topic name for ROS (HarkFeature type message)"/>
+      <Parameter name="TOPIC_NAME_HARKSOURCE" type="string" value="HarkSource" description="Published topic name for ROS (HarkSource type message)"/>
+      <Parameter name="TOPIC_NAME_HARKSRCWAVE" type="string" value="HarkSrcWave" description="Published topic name for ROS (HarkSrcWave type message)"/>
+      <Parameter name="TOPIC_NAME_HARKSRCFFT" type="string" value="HarkSrcFFT" description="Published topic name for ROS (HarkSrcFFT type message)"/>
+      <Parameter name="TOPIC_NAME_HARKSRCFEATURE" type="string" value="HarkSrcFeature" description="Published topic name for ROS (HarkSrcFeature type message)"/>
+      <Parameter name="TOPIC_NAME_HARKSRCFEATUREMFM" type="string" value="HarkSrcFeatureMFM" description="Published topic name for ROS (HarkSrcFeatureMFM type message)"/>
+      <Parameter name="BUFFER_NUM" type="int" value="100" description="Buffer size for a ROS published message"/>
+      <Parameter name="ROS_LOOP_RATE" type="float" value="100000" description="This allows you to specify a frequency that you would like to loop at [Hz]. Keep this value large. (If ROS interval is shorter than HARK interval, ROS interval is overwritten.)"/>
+      <Parameter name="TIMESTAMP_TYPE" type="string" value="ROS_TIME_NOW" description="Time stamp type. If TIMESTAMP is connected, this is ignored."/>
+      <Parameter name="SAMPLING_RATE" type="int" value="16000" description="The time increment is caluculated as ADVANCE / SAMPLING_RATE"/>
+      <Parameter name="ROS_FRAME_ID" type="string" value="HarkRosFrameID" description="ROS frame_id of the message header"/>
+    </Node>
+    <Node name="node_RosNodeGenerator_1" type="RosNodeGenerator" x="520" y="420">
+      <Parameter name="NODE_NAME" type="string" value="HARK_MASTER_NODE" description="Node name for ROS"/>
+    </Node>
+    <Link from="node_AudioStreamFromMic_1" output="AUDIO" to="node_RosHarkMsgsPublisher_1" input="MIC_WAVE"/>
+    <NetOutput name="OUTPUT" node="node_RosHarkMsgsPublisher_1" terminal="OUTPUT" object_type="ObjectRef" description="This is a dummy output, and it has no mean. Only for an activation of this module."/>
+    <NetOutput name="VALUE" node="node_RosNodeGenerator_1" terminal="VALUE" object_type="int" description="int parameter"/>
+    <NetCondition name="CONDITION" node="node_AudioStreamFromMic_1" terminal="NOT_EOF"/>
+  </Network>
+  <Network type="subnet" name="MAIN">
+    <Node name="node_loop_1" type="loop" x="520" y="260">
+      <Parameter name="LENGTH" type="int" value="512" description="subnet_param"/>
+      <Parameter name="ADVANCE" type="int" value="160" description="subnet_param"/>
+      <Parameter name="DEVICE" type="subnet_param" value="ARG1" description="subnet_param"/>
+    </Node>
+    <NetOutput name="VALUE" node="node_loop_1" terminal="VALUE" object_type="any" description="Dynamic"/>
+    <NetOutput name="OUTPUT" node="node_loop_1" terminal="OUTPUT" object_type="any" description="Dynamic"/>
+  </Network>
+</Document>
