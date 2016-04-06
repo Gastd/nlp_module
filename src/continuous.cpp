@@ -16,8 +16,10 @@ char *argv[] = {(char*)"./continuous",
 		(char*)"/home/gastd/workspaces/indigo/amora_ws/src/nlp_module/data/model/language_model.lm",
 		(char*)"-dict",
 		(char*)"/home/gastd/workspaces/indigo/amora_ws/src/nlp_module/data/model/phonetic_dictionary.dic",
+		(char*)"-logfn",
+		(char*)"/dev/null",
 		};
-int argc = 7;
+int argc = 9;
 
 
 decoder::decoder()	throw(std::runtime_error)
@@ -125,19 +127,19 @@ std::string decoder::recognize()	throw(std::runtime_error)
 void decoder::init()	throw(std::runtime_error)
 {
 	config = cmd_ln_parse_r(NULL, cont_args_def, argc, argv, FALSE);
-		
+
 	if(config == NULL)	throw  std::runtime_error("Failed to configure device\n");
-		
+
 	ps = ps_init(config);
 	
 	if(ps == NULL)	throw std::runtime_error("Failed to initialize device\n");
-		
+
 	if ( (ad = ad_open_dev(cmd_ln_str_r(config, "-adcdev"), (int)cmd_ln_float32_r(config, "-samprate"))) == NULL )	throw std::runtime_error("Failed to open audio device\n");
 
 	if ((cont = cont_ad_init(ad, ad_read)) == NULL)	throw std::runtime_error("Failed to initialize voice activity detection\n");
-	
+
 	if (ad_start_rec(ad) < 0)	throw std::runtime_error("Failed to start recording\n");
-	
+
 	if (cont_ad_calib(cont) < 0)	throw std::runtime_error("Failed to calibrate voice activity detection\n");
 }
 

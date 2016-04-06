@@ -26,7 +26,7 @@ int main(int argc, char **argv)
 	setup_sig_handler();
 	
 	string path_par, language, phon_dict;
-	feedback.data = false;
+	feedback.data = true;
 	ros::init(argc, argv, "listener");
 	ros::NodeHandle n;
 	ros::Publisher ear_pub = n.advertise<std_msgs::String>("ear", 1000);
@@ -43,7 +43,7 @@ int main(int argc, char **argv)
 		
 		msg.data = decod->recognize();
 		if(feedback.data)	ear_pub.publish(msg);
-		feedback.data = false;
+		// feedback.data = false;
 
 		loop_rate.sleep();
 		
